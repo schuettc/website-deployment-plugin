@@ -9,10 +9,7 @@
   "plugins": [
     {
       "name": "website-deployment",
-      "source": {
-        "source": "github",
-        "repo": "schuettc/website-deployment-plugin"
-      },
+      "source": "./plugin",
       "description": "Guided workflow to deploy Node.js/Express apps to AWS serverless architecture. Analyzes your app, scaffolds infrastructure, and deploys with CDK — all with step-by-step explanations for beginners."
     }
   ]

@@ -70,7 +70,7 @@ Clone the repo and load it directly:
 
 ```bash
 git clone https://github.com/schuettc/website-deployment-plugin.git
-claude --plugin-dir ./website-deployment-plugin
+claude --plugin-dir ./website-deployment-plugin/plugin
 ```
 
 ## Quick Start
