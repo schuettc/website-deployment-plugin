@@ -1,0 +1,16 @@
+{
+  "name": "website-deployment-marketplace",
+  "owner": {
+    "name": "Court Schuett"
+  },
+  "metadata": {
+    "description": "Guided workflow plugin to deploy Node.js/Express apps to AWS serverless architecture"
+  },
+  "plugins": [
+    {
+      "name": "website-deployment",
+      "source": ".",
+      "description": "Guided workflow to deploy Node.js/Express apps to AWS serverless architecture. Analyzes your app, scaffolds infrastructure, and deploys with CDK — all with step-by-step explanations for beginners."
+    }
+  ]
+}

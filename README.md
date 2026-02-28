@@ -38,7 +38,7 @@ Before installing the plugin, make sure you have:
    aws sts get-caller-identity  # Should show your account ID
    ```
 
-4. **Claude Code** — [Installation guide](https://docs.anthropic.com/en/docs/claude-code)
+4. **Claude Code 1.0.33+** — [Installation guide](https://code.claude.com/docs/en/quickstart)
    ```bash
    claude --version
    ```
@@ -50,13 +50,32 @@ Before installing the plugin, make sure you have:
 
 ## Installation
 
+### From the marketplace (recommended)
+
+Open Claude Code and run:
+
+```
+/plugin marketplace add schuettc/website-deployment-plugin
+```
+
+Then install the plugin:
+
+```
+/plugin install website-deployment@website-deployment-marketplace
+```
+
+### Local development / testing
+
+Clone the repo and load it directly:
+
 ```bash
-claude plugin add github:schuettc/website-deployment-plugin
+git clone https://github.com/schuettc/website-deployment-plugin.git
+claude --plugin-dir ./website-deployment-plugin
 ```
 
 ## Quick Start
 
-1. **Open your Express project** in Claude Code:
+1. **Open your Express project** in Claude Code (with the plugin loaded):
    ```bash
    cd your-express-app
    claude
