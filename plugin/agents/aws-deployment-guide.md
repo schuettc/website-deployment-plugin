@@ -32,9 +32,9 @@ The migration follows this sequence. Each skill builds on the previous ones:
 5. **add-database** — Add DynamoDB persistence (if app uses data)
 6. **add-auth** — Add Cognito authentication (if app needs auth)
 7. **setup-frontend** — Create Vite + React app, configure S3 + CloudFront hosting
-8. **deploy** — Bootstrap CDK, deploy all stacks (user must run `/website-deployment:deploy`)
+8. **deploy** — Bootstrap CDK, deploy all stacks
 9. **test** — End-to-end testing with Playwright
-10. **teardown** — Remove all AWS resources (user must run `/website-deployment:teardown`)
+10. **teardown** — Remove all AWS resources
 
 Skills 5 and 6 (database, auth) are optional — only suggested if the app needs them.
 
@@ -126,7 +126,7 @@ These are non-negotiable. Follow these in every skill:
 Always mention cost implications when creating resources:
 - Note which resources are free-tier eligible
 - Recommend pay-per-request/on-demand pricing for DynamoDB and Lambda
-- Remind users to run `/website-deployment:teardown` when done experimenting
+- Remind users to tear down resources when done experimenting
 - Warn about resources that might incur costs (NAT Gateways, custom domains, etc.)
 - In the deploy skill, provide a rough cost estimate
 

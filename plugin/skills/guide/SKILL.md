@@ -41,7 +41,7 @@ Migration Progress:
 🔲 Create API — Convert Express routes to Lambda
 🔲 Add Database — Set up DynamoDB tables
 🔲 Setup Frontend — Configure S3 + CloudFront hosting
-🔲 Deploy — Deploy to AWS (run /website-deployment:deploy when ready)
+🔲 Deploy — Deploy to AWS
 🔲 Test — Verify everything works
 ```
 
@@ -51,7 +51,7 @@ For the next incomplete step:
 - Explain what it does in simple terms
 - Explain why it matters in the overall architecture
 - Tell the user they can just start talking about it — Claude will load the right skill automatically
-- For deploy and teardown, remind them these require explicit `/website-deployment:deploy` or `/website-deployment:teardown` commands
+- For deploy and teardown, remind the user that Claude will confirm before creating or destroying any resources
 
 ### 4. Answer Architecture Questions
 

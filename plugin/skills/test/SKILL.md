@@ -15,7 +15,7 @@ You are running end-to-end tests against the deployed application using the Play
 
 ## Prerequisites
 - Application is deployed (`.migration/outputs.json` exists with URLs)
-- If not deployed, suggest running `/website-deployment:deploy` first
+- If not deployed, suggest deploying first
 
 ## What To Do
 
@@ -127,7 +127,7 @@ Save results to `.migration/test-results.md`
 
 - If all tests pass: "Everything works! Your app is live and functional."
 - If some tests fail: "Let's fix these issues. The most important one is [X] because [reason]."
-- Remind about cleanup: "When you're done, run `/website-deployment:teardown` to remove AWS resources and stop any costs."
+- Remind about cleanup: "When you're done, ask me to tear down the resources to stop any costs."
 
 ## Important Notes
 

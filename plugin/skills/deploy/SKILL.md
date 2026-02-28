@@ -1,18 +1,12 @@
 ---
 name: deploy
 description: Builds, validates, and deploys all infrastructure to AWS. Creates real AWS resources that may incur costs.
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Deploy — Ship to AWS
 
 You are deploying the user's infrastructure to AWS using CDK. This creates real cloud resources.
-
-**This skill must be explicitly invoked by the user with `/website-deployment:deploy`.** It will never auto-activate.
-
-## When This Skill Activates
-- User explicitly runs `/website-deployment:deploy`
-- Never auto-invoked — this creates real resources and may incur costs
 
 ## Prerequisites
 - CDK project exists and compiles (`cdk synth` succeeds)
@@ -64,7 +58,7 @@ Show the user exactly what will be created:
 3. **Cost estimate:**
    - List each resource and its free-tier eligibility
    - Estimate monthly cost for low traffic (likely $0-5)
-   - Remind about cleanup: "Run `/website-deployment:teardown` when you're done to avoid charges"
+   - Remind about cleanup: "Ask me to tear down the resources when you're done to avoid charges"
 
 4. **Explain CDK Bootstrap:**
    If this is the first CDK deployment in this account/region:
@@ -122,7 +116,7 @@ Wait for user confirmation. Do NOT proceed without it.
    - "Your app is live! Visit [URL] to see it"
    - "Try the API at [URL]/api/..."
    - "To run comprehensive tests, tell me to test the deployment"
-   - "When you're done, run `/website-deployment:teardown` to remove everything and stop costs"
+   - "When you're done, ask me to tear down the resources to stop costs"
 
 5. **Update `.migration/plan.md`** to mark deploy as complete
 

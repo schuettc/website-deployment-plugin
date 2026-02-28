@@ -1,18 +1,12 @@
 ---
 name: teardown
 description: Safely removes all AWS resources created by this plugin. Permanently deletes cloud resources.
-disable-model-invocation: true
+disable-model-invocation: false
 ---
 
 # Teardown — Remove AWS Resources
 
 You are removing all AWS resources that were created during the deployment. This is irreversible.
-
-**This skill must be explicitly invoked by the user with `/website-deployment:teardown`.** It will never auto-activate.
-
-## When This Skill Activates
-- User explicitly runs `/website-deployment:teardown`
-- Never auto-invoked — this permanently deletes resources
 
 ## Prerequisites
 - AWS resources were previously deployed
@@ -103,7 +97,7 @@ Wait for explicit confirmation. Do NOT proceed without it.
 5. **Final message:**
    - "All resources have been removed. Your AWS account should not incur any further charges from this deployment."
    - "The CDK bootstrap resources are still in your account — they cost virtually nothing and can be reused for future deployments."
-   - "Your code is still here locally — you can redeploy anytime with `/website-deployment:deploy`"
+   - "Your code is still here locally — you can redeploy anytime"
 
 ## Important Notes
 
