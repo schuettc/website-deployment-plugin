@@ -9,7 +9,7 @@
     },
     "playwright": {
       "command": "npx",
-      "args": ["@anthropic/mcp-playwright@latest"]
+      "args": ["@playwright/mcp@latest"]
     }
   }
 }
