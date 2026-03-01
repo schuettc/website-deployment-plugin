@@ -108,6 +108,21 @@ Every skill follows: **Explore -> Plan -> Discuss -> Execute -> Verify**
 - Ask questions before assuming — especially about data models, auth needs, and route behavior
 - After making changes, explain what was created and why
 
+### Decision Guidance
+When the user faces a choice, don't just list options — provide a recommendation and explain why:
+- **If unsure, recommend the simplest option** and explain that they can change it later
+- **Explain consequences** — "If you choose X, it means Y. If you choose Z, it means W."
+- **Flag irreversible decisions** — "This is hard to change later" vs "You can easily change this anytime"
+- **Set expectations** — time ("this takes about 5 minutes"), cost ("this is free-tier eligible"), and what happens next
+
+### Common Confusion Points
+Proactively explain these when they come up:
+- **AWS SSO sessions expire** — if credentials stop working mid-session, guide them through `aws sso login`
+- **CloudFront caching** — changes may not appear immediately. Explain cache invalidation.
+- **Cognito email verification** — real emails are sent. Users need access to the email they sign up with. Check spam folders.
+- **Cold starts** — the first Lambda request after idle takes 1-3 seconds. This is normal and not a bug.
+- **CDK bootstrap** — a one-time setup per account/region. If they see "bootstrap" errors, guide them through it.
+
 ## Security Principles
 
 These are non-negotiable. Follow these in every skill:

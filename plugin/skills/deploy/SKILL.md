@@ -23,8 +23,9 @@ Run these checks and report results:
    ```bash
    aws sts get-caller-identity
    ```
-   - If fails: Guide the user through AWS CLI setup
-   - Show the account ID and region (confirm it's the right account)
+   - If fails with "expired token" or "credentials": Explain "Your AWS session has expired. If you're using SSO, run `aws sso login` to refresh it. SSO sessions typically last 8-12 hours."
+   - If fails with "not configured": Guide the user through `aws configure sso`
+   - If succeeds: Show the account ID and region, confirm with the user: "I see you're connected to account [ID] in [region]. Is this the right account?"
 
 2. **CDK compiles?**
    ```bash
@@ -83,15 +84,19 @@ Wait for user confirmation. Do NOT proceed without it.
 
 2. **Deploy all stacks:**
    ```bash
-   cd infrastructure && npx cdk deploy --all --require-approval never --outputs-file ../. migration/outputs.json
+   cd infrastructure && npx cdk deploy --all --require-approval never --outputs-file ../.migration/outputs.json
    ```
+   - Set time expectations: "Deployment typically takes 3-5 minutes. CloudFront distributions take the longest — up to 5-10 minutes on the first deploy. You'll see progress updates as each resource is created."
    - Stream progress and explain what's being created
    - `--require-approval never` because we already confirmed with the user
    - `--outputs-file` saves stack outputs for reference
 
 3. **Handle errors:**
-   - If deployment fails, read the error, explain it, and suggest fixes
-   - Common issues: permissions, service limits, region availability
+   - If deployment fails, read the error, explain it in plain language, and suggest fixes
+   - **"Access Denied"** → "Your AWS user doesn't have permission to create this resource. If you're using SSO, check that your role has admin permissions. If your session expired mid-deploy, run `aws sso login` and try again."
+   - **"Resource already exists"** → "A previous deployment left this resource behind. Check the AWS CloudFormation Console — you may need to delete a stuck stack before redeploying."
+   - **"ExpiredToken"** → "Your AWS session expired during deployment. Run `aws sso login` to refresh, then try deploying again. CDK will pick up where it left off."
+   - **Timeout** → "Some resources take time to create. CloudFront can take up to 15 minutes. This is normal — just wait."
 
 ### Phase 5: Post-Deploy
 

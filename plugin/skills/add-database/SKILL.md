@@ -28,11 +28,15 @@ Table: Items
 └── Billing: Pay-per-request
 ```
 
+Explain the key concepts before asking questions:
+- **Partition key** — "This is the main way you look up items. Think of it like a folder name — each item has a unique one. For most apps, a random ID works fine."
+- **Sort key** (optional) — "If you need to store multiple related items under one partition key (like all notes by one user), the sort key orders them. Many apps don't need this."
+- **Access patterns** — "How will your app find data? If you only look up items by ID, a simple partition key is all you need. If you also need 'all items by user X' or 'all items created today', we may need to add a secondary index."
+
 Ask the user:
 1. "Does this table design capture all your data?"
-2. "How will you typically look up data? By ID? By user? By date?" (affects key design)
-3. "Do you need to search or filter beyond looking up by ID?" (may need GSI)
-4. "Is any data temporary and can be auto-deleted?" (TTL feature)
+2. "Will you only look things up by ID, or do you also need to find things by user, date, category, etc.?"
+3. "Is any data temporary and could be auto-deleted after a certain time?"
 
 ### Phase 3: Execute
 
@@ -40,10 +44,10 @@ Ask the user:
    - DynamoDB table with:
      - Partition key and optional sort key
      - Pay-per-request billing mode
-     - Point-in-time recovery enabled
+     - Point-in-time recovery enabled — explain: "This lets you restore your data to any point in the last 35 days, like an automatic backup. It's free for the first 25 GB."
      - Encryption at rest (default)
-     - RemovalPolicy.RETAIN
-   - Global Secondary Indexes if needed
+     - RemovalPolicy.DESTROY for development (explain: "For a learning project, we delete the table when the stack is deleted. For production data you'd want RETAIN so your data survives stack changes.")
+   - Global Secondary Indexes if access patterns require it — explain: "Think of this as a second way to look up your data. If your main key is the item ID but you also need to find all items by a specific user, a secondary index makes that fast."
    - Export table name and ARN for other stacks
 
 2. **Update Lambda handlers** to use DynamoDB:

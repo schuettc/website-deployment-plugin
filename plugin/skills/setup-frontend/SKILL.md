@@ -15,11 +15,12 @@ You are creating a Vite + React frontend and setting up S3 + CloudFront hosting.
 
 ### Phase 1: Plan
 
-Present the plan to the user:
-1. Create a Vite + React (TypeScript) app that builds to static files in `dist/`
-2. Both frontend and API served through one CloudFront distribution (`/api/*` to API Gateway, everything else to S3) — no CORS issues
-3. Migrate existing HTML/CSS/JS into React components
-4. Ask if they want a custom domain (Route53) or the default CloudFront URL
+Present the plan to the user, explaining each concept:
+
+1. "We'll create a React app using Vite (a fast build tool). React lets you build your UI with reusable components. Vite compiles everything into optimized static files — HTML, CSS, and JavaScript — that any browser can load."
+2. "Everything goes through one CloudFront URL — your website files AND your API. When someone visits your site, CloudFront serves the React app from S3. When the app calls `/api/...`, CloudFront routes that to API Gateway. This means no cross-origin issues."
+3. "I'll convert your existing HTML pages into React components. The styling stays the same — we're reorganizing, not redesigning."
+4. Ask about custom domain: "Your site will get a CloudFront URL like `d1234abcd.cloudfront.net`. If you want a custom domain like `myapp.com`, we'd need to set up Route53 (AWS's DNS service, ~$0.50/month per domain) and an SSL certificate (free). Want to set that up now, or use the default URL? You can always add a custom domain later."
 
 ### Phase 2: Execute
 
@@ -119,25 +120,24 @@ Create `infrastructure/lib/frontend-stack.ts`:
   - Auto-delete objects on stack deletion
 
 - **Origin Access Control (OAC):**
-  - Create OAC (newer, recommended over OAI)
-  - Grant S3 read-only access to CloudFront only
+  - Create OAC — explain: "This is the secure link between CloudFront and your S3 bucket. It means only CloudFront can read your files — nobody can access S3 directly. This is a security best practice."
 
 - **CloudFront Distribution:**
   - Default behavior: S3 origin (Vite build output)
   - Additional behavior: `/api/*` -> API Gateway origin
   - HTTPS only (redirect HTTP -> HTTPS)
   - Default root object: `index.html`
-  - SPA routing: Custom error responses — 403 and 404 -> `/index.html` with 200 status (so React Router handles client-side routes)
-  - Price class: PriceClass.PRICE_CLASS_100 (US/Europe — cheapest)
+  - SPA routing: Custom error responses — explain: "React handles page navigation in the browser (client-side routing). If someone bookmarks `/dashboard` and visits it directly, S3 doesn't have a file called `/dashboard` — it would return a 404. We tell CloudFront to serve `index.html` instead, and React figures out which page to show. This is standard for all React apps."
+  - Price class: PriceClass.PRICE_CLASS_100 — explain: "This serves your content from data centers in North America and Europe. It's the cheapest option. If your users are in Asia or other regions, you can upgrade later."
   - Enable compression (gzip/brotli)
   - Response headers policy with security headers
 
 - **S3 Deployment:**
   - Use `BucketDeployment` to upload `frontend/dist/`
-  - Cache control:
-    - `assets/*` (hashed filenames): `max-age=31536000, immutable`
-    - `index.html`: `max-age=0, must-revalidate`
-  - Invalidate CloudFront cache after deployment
+  - Cache control — explain: "Caching determines how long browsers and CloudFront remember your files before checking for updates:"
+    - `assets/*` (hashed filenames): cached forever — "Vite adds a unique hash to each file name (like `app-a1b2c3.js`). When your code changes, the hash changes, so the browser knows to download the new version. This means assets can be cached indefinitely."
+    - `index.html`: never cached — "This is the entry point that references your assets. It needs to always be fresh so it points to the latest asset hashes."
+  - Invalidate CloudFront cache after deployment — "After uploading new files, we tell CloudFront to clear its cache so users see the latest version immediately."
 
 - **Outputs:** CloudFront URL, distribution ID, S3 bucket name
 

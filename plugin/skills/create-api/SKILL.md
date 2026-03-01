@@ -92,6 +92,6 @@ Ask the user:
 - Bundle each handler individually (tree-shaking)
 
 ### API Gateway
-- Use REST API for Cognito authorizer compatibility
-- Enable CORS at the API Gateway level
-- Add throttling defaults (1000 req/s, 500 burst)
+- Use REST API (not HTTP API) — explain if asked: "AWS has two types of API Gateway. REST API supports Cognito authorization directly, which we need if you add login later. HTTP API is simpler and cheaper but would require more custom code for auth. REST API is the safer default."
+- Enable CORS at the API Gateway level — explain if asked: "CORS (Cross-Origin Resource Sharing) is a browser security feature. Since we're routing everything through CloudFront, we shouldn't hit CORS issues, but we configure it as a safety net in case you test the API directly."
+- Add throttling defaults (1000 req/s, 500 burst) — explain if asked: "This limits how many requests your API handles per second. It protects you from unexpected traffic spikes (or accidental loops in your code) that could run up your Lambda bill."

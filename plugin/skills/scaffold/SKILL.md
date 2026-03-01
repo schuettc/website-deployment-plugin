@@ -30,8 +30,12 @@ infrastructure/
 ```
 
 Ask the user:
-1. "What would you like to name your project? (Used in stack names — e.g., 'my-app' becomes 'MyAppApiStack')"
-2. "Which AWS region do you prefer? (us-east-1 is default, us-west-2 for west coast)"
+1. "What would you like to name your project?" — Explain that this becomes part of AWS resource names (e.g., 'my-app' becomes 'MyAppApiStack'). Suggest lowercase with hyphens. Keep it short — long names hit AWS character limits.
+2. "Which AWS region do you prefer?" — Help them choose:
+   - **us-east-1** (N. Virginia) — recommended default. Most AWS services launch here first, most examples/docs assume it, and pricing is standard.
+   - **us-west-2** (Oregon) — good alternative if their users are on the west coast.
+   - **eu-west-1** (Ireland) — if their users are primarily in Europe.
+   - Explain: "Pick the region closest to your users for the fastest experience. All regions have the same pricing for these services. You can't easily change this later, but for a learning project it doesn't matter much."
 
 ### Phase 2: Execute
 
@@ -61,5 +65,5 @@ After creating files:
 ## Important Notes
 
 - Use latest stable CDK version
-- Use `RemovalPolicy.DESTROY` for development
+- Use `RemovalPolicy.DESTROY` for development — explain what this means: "When you delete the stack, all resources get deleted too. For a learning project this is what you want — no leftover resources running up charges. For production, you'd use RETAIN so your database survives even if you accidentally delete the stack."
 - Set `env` in the stack to use the user's preferred region

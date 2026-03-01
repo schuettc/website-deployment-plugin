@@ -19,12 +19,20 @@ Based on the migration plan, show the user:
 - Public routes (no auth needed)
 - Protected routes (require login)
 
+Explain the auth flow before asking questions:
+"Here's how authentication will work in your app:
+1. New users sign up with their email and a password
+2. They receive a verification code by email (this confirms they own the email)
+3. After verifying, they can sign in
+4. When signed in, the browser stores a token that gets sent with every API request
+5. Your API checks the token and rejects requests without one"
+
 Ask the user:
-1. "Here are the routes I'll protect — does this look right?"
-2. "Do you want email verification for new users? (Recommended)"
-3. "Password requirements — min 8 characters, uppercase, lowercase, number, symbol. Sound good?"
-4. "Do you want social login (Sign in with Google)? I'd recommend starting without it."
-5. "Should users be able to reset their password via email?"
+1. "Here are the routes I'll protect — does this look right?" — Explain: "Protected routes require the user to be signed in. Public routes work for everyone."
+2. "Do you want email verification for new users?" — Explain: "Recommended — it prevents fake accounts. Users get a 6-digit code by email after signing up. Without it, anyone can sign up with any email address."
+3. "Password requirements — min 8 characters, uppercase, lowercase, number, symbol. Sound good?" — Explain: "These are standard security defaults. You can relax them but it's not recommended."
+4. "Do you want social login (Sign in with Google)?" — Explain: "This adds complexity. I'd recommend starting without it — you can always add it later."
+5. "Should users be able to reset their password via email?" — Explain: "Users who forget their password get a reset code by email. Almost always yes."
 
 ### Phase 2: Execute
 
@@ -97,12 +105,17 @@ Ask the user:
 ## Important Notes
 
 ### Security
-- Cognito SDK stores tokens in localStorage by default — mention this trade-off; for production, discuss httpOnly cookies
-- Set reasonable token expiration (1 hour access, 30 days refresh)
-- Use SRP auth flow (never send plaintext passwords)
-- Mention MFA as an optional enhancement
+- Cognito SDK stores tokens in localStorage by default — explain: "The browser remembers your login between page refreshes. This is standard for most web apps. For high-security apps (banking, medical), you'd use a different approach with server-side sessions."
+- Set reasonable token expiration — explain: "Access tokens expire after 1 hour (you get a new one automatically). Refresh tokens last 30 days (how long you stay logged in without re-entering your password)."
+- Use SRP auth flow — explain: "This means your password is never sent over the network in plain text. Cognito uses a secure challenge-response protocol instead."
+- Mention MFA as an optional enhancement — explain: "Multi-factor authentication adds a second step like a code from an authenticator app. Good for production but adds friction during development."
 
 ### Best Practices
-- Use email as the primary identifier (not username)
+- Use email as the primary identifier (not username) — explain: "Users sign in with their email address. This is what most modern apps do — fewer things to remember."
 - Enable email verification
 - Configure account recovery via email only (not phone, to keep it simple)
+
+### Testing Auth
+- When testing sign-up, Cognito sends a real verification email. Use a real email address you have access to.
+- For automated testing, you can create a test user in the AWS Console (Cognito > User Pools > Users) to skip the email verification flow.
+- If the verification email doesn't arrive, check the spam folder. Cognito sends from `no-reply@verificationemail.com`.
