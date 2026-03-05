@@ -12,6 +12,21 @@ You are creating the AWS CDK TypeScript project that defines the cloud infrastru
 
 ## What To Do
 
+### Phase 0: Environment Check
+
+Before creating the CDK project, verify the user's environment can support it. Catching these issues now saves confusing errors later.
+
+1. **Check Node.js version** — Run `node --version`. CDK and TypeScript compilation require Node.js 18+. If older:
+   "CDK needs Node.js 18 or newer to work properly. You're on [version]. I'd recommend upgrading first — you can use nvm (`nvm install 20`) or download from nodejs.org."
+
+2. **Check AWS CLI is installed** — Run `aws --version`. If not found:
+   "We'll need the AWS CLI to deploy later. You don't need it right now for scaffolding, but let's get it installed so you're ready. Here's how: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html"
+
+3. **Check AWS credentials** — Run `aws sts get-caller-identity`. If it fails, don't block — just note it:
+   "AWS credentials aren't configured yet. That's fine for now — we can set those up before we deploy. Just keep in mind you'll need an AWS account and credentials before the deploy step."
+
+If all checks pass (or the user acknowledges the warnings), proceed.
+
 ### Phase 1: Plan
 
 Show the proposed directory layout:

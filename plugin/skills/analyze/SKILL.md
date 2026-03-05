@@ -15,6 +15,29 @@ You are analyzing the user's existing Node.js/Express application to create a mi
 
 ## What To Do
 
+### Phase 0: Safety Check
+
+Before making any changes, make sure the user's work is safe. This migration creates a lot of new files and modifies the project structure significantly — if something goes wrong, the user needs an easy way to get back to where they started.
+
+1. **Check git is initialized** — Run `git status`. If the project isn't a git repo, suggest initializing one:
+   "Before we start, let's set up version control so you can always get back to your current working app if needed. Want me to run `git init` and make an initial commit?"
+
+2. **Check for uncommitted changes** — If there are uncommitted changes, ask the user to commit them first:
+   "I see you have uncommitted changes. Let's save those before we start the migration — that way you can always roll back to exactly where you are now. Want me to commit these for you?"
+
+3. **Create a migration branch** — Create a new branch so all migration work is isolated:
+   "I'll create a `migration` branch to work on. Your `main` branch stays untouched, so you can always switch back."
+   ```bash
+   git checkout -b migration
+   ```
+
+4. **Check Node.js version** — Run `node --version`. The migration targets Node.js 20.x for Lambda. If the user is on Node 16 or older, warn them:
+   "You're running Node.js [version]. AWS Lambda uses Node.js 20, and some of the tools we'll use (like Vite and CDK) need Node.js 18 or newer. I'd recommend upgrading before we continue — otherwise you may hit confusing errors later."
+
+5. **Check if git is configured** — Verify `git config user.name` and `git config user.email` are set so commits work.
+
+Once safety checks pass, proceed to exploration.
+
 ### Phase 1: Explore
 
 Thoroughly read the existing application:

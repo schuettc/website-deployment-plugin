@@ -53,7 +53,15 @@ For the next incomplete step:
 - Tell the user they can just start talking about it — Claude will load the right skill automatically
 - For deploy and teardown, remind the user that Claude will confirm before creating or destroying any resources
 
-### 4. Answer Architecture Questions
+### 4. Cost Awareness
+
+If the deploy step is complete (`.migration/outputs.json` exists), always include a brief cost reminder at the end of your progress update:
+
+"**Reminder:** Your AWS resources are live and may incur charges (though most are covered by the free tier for low-traffic apps). When you're done testing or developing, just tell me to tear everything down to stop any costs."
+
+This is especially important for novice developers who may not realize cloud resources keep running (and charging) even when they're not actively using them.
+
+### 5. Answer Architecture Questions
 
 If the user asks about the overall architecture:
 - Reference the target architecture from the agent system prompt
